@@ -18,25 +18,23 @@ string get_next_perm(vector<int>& v)
 		return "-1";
 
 	int pos_pivot = v.size()-1;
-	if (pos_suffix_start > 0)
-	{
-		pos_pivot = pos_suffix_start-1;
 
-		//find the rightmost digit in suffix that is the least number greater
-		//than the pivot. We call this swapper.
-		int pos_swapper;
-		for (pos_swapper = v.size()-1;
-		     pos_swapper > pos_pivot &&
-		     v[pos_swapper] <= v[pos_pivot];
-		     pos_swapper--
-		    )
-			;
+	pos_pivot = pos_suffix_start-1;
 
-		//Swap pivot digit with swapper digit
-		int tmp = v[pos_pivot];
-		v[pos_pivot] = v[pos_swapper];
-		v[pos_swapper] = tmp;
-	}
+	//find the rightmost digit in suffix that is the least number greater
+	//than the pivot. We call this swapper.
+	int pos_swapper;
+	for (pos_swapper = v.size()-1;
+	     pos_swapper > pos_pivot &&
+	     v[pos_swapper] <= v[pos_pivot];
+	     pos_swapper--
+	    )
+		;
+
+	//Swap pivot digit with swapper digit
+	int tmp = v[pos_pivot];
+	v[pos_pivot] = v[pos_swapper];
+	v[pos_swapper] = tmp;
 
 	//Prepare resulting string with reversing elements after the pivot digit
 	string res = "";
