@@ -23,11 +23,11 @@ int isSafePoint (int n, int x, int y)
 	return false;
 }
 
-void push_to_q (int x, int y, const vector<vector<char> > &maze,
+void push_to_q (int x, int y, const vector<vector<long long> > &maze,
 		vector<vector<bool> > &visited,
 		queue<GridPos> &q)
 {
-	if (isSafePoint(maze.size(), x, y) && maze[x][y]=='.'
+	if (isSafePoint(maze.size(), x, y) && maze[x][y]>=0
 	    && !visited[x][y])
 	{
 		visited[x][y] = true;
@@ -37,7 +37,7 @@ void push_to_q (int x, int y, const vector<vector<char> > &maze,
 
 }
 
-int has_path_bfs (vector<vector<char> > &maze)
+int has_path_bfs (vector<vector<long long> > &maze)
 {
 	int n = maze.size();
 	queue<GridPos> q;
@@ -133,18 +133,15 @@ int main ()
 	int n;
 	cin>>n;
 
-	vector<vector<char> > maze;
 	vector<vector<long long> > grid;
 	for (int i=0; i<n; i++)
 	{
-		maze.push_back(vector<char>());
 		grid.push_back(vector<long long>());
 		for (int j=0; j<n; j++)
 		{
 			char in;
 			cin>>in;
-			maze[i].push_back(in);
-			if (maze[i][j] == '.')
+			if (in == '.')
 				grid[i].push_back(0);
 			else
 				grid[i].push_back(-1);
@@ -155,7 +152,9 @@ int main ()
 	if (grid[n-1][n-1] == 0)/* no paths from s to t while only
 					       going right and down */
 	{
-		if (!has_path_bfs(maze))
+		if (!has_path_bfs(grid)) /* grid is possibly modified by dp()
+					    call but blocked cells are -1 and
+					    non-blocked cells are >=0 */
 			cout<<"INCONCEIVABLE"<<endl; /* No paths s to t at all */
 		else
 			cout<<"THE GAME IS A LIE"<<endl;/* there are paths s to t when
